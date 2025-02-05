@@ -65,7 +65,7 @@ public class ClashRoyalMain {
     }
 
     public void go(String args[]) throws IOException {
-        URL url = new URL("https://api.clashroyale.com/v1/players/%23TAG"); 
+        URL url = new URL("https://api.clashroyale.com/v1/players/%23TAG");
         HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
         myURLConnection.setRequestProperty("Authorization", "Bearer TOKEN_API");
         InputStream is = myURLConnection.getInputStream();
@@ -105,12 +105,13 @@ public class ClashRoyalMain {
                     break;
             }
         }
-         System.out.println();
-        System.out.println("Cout Max de tts les Cartes: " + costAllMax);
-        System.out.println("Thunes deja investie: " + costpayed);
-        System.out.println("Reste a mettre: " + (costAllMax - costpayed));
+        System.out.println(player.name);
         System.out.println();
-        System.out.println("Total de po a mettre pour carte passable: " + todayPo);
+        System.out.print("Cout Max de tts les Cartes: " + String.format("%,8d%n", costAllMax));
+        System.out.print("Thunes deja investie: " + String.format("%,8d%n", costpayed));
+        System.out.print("Reste a mettre: " + String.format("%,8d%n", (costAllMax - costpayed)));
+        System.out.println();
+        System.out.print("Total de po a mettre pour carte passable: " + String.format("%,8d%n", todayPo));
 
     }
 
