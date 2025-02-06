@@ -14,6 +14,15 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.Properties;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.Option;
 
 /**
  *
@@ -27,7 +36,6 @@ public class ClashRoyalMain {
         for (int i = 0; i < max; i++) {
             res += tab[i];
         }
-        //System.out.printf("%s (%s) level: %d: %d\n", card.name, card.rarity, card.level, res);
         return res;
     }
 
@@ -39,11 +47,9 @@ public class ClashRoyalMain {
         if (card.count < tabCarte[card.level + 1]) {
             return 0;
         }
-        System.out.printf("%s (%s) level: %d: ", card.name, card.rarity, card.level);
         for (int i = card.level; i < card.level + 1; i++) {
             res += tabPo[i];
         }
-        System.out.printf("total %d\n", res);
         return res;
     }
 
@@ -65,9 +71,9 @@ public class ClashRoyalMain {
     }
 
     public void go(String args[]) throws IOException {
-        URL url = new URL("https://api.clashroyale.com/v1/players/%23TAG");
+        URL url = new URL("https://api.clashroyale.com/v1/players/%23" + args[0]);
         HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
-        myURLConnection.setRequestProperty("Authorization", "Bearer TOKEN_API");
+        myURLConnection.setRequestProperty("Authorization", "Bearer " + args[1]);
         InputStream is = myURLConnection.getInputStream();
         Gson gson = new Gson();
         String json = IOUtils.toString(is, "UTF-8");
@@ -105,7 +111,7 @@ public class ClashRoyalMain {
                     break;
             }
         }
-        System.out.println(player.name);
+        System.out.print(player.name);
         System.out.println();
         System.out.print("Cout Max de tts les Cartes: " + String.format("%,8d%n", costAllMax));
         System.out.print("Thunes deja investie: " + String.format("%,8d%n", costpayed));
@@ -115,7 +121,48 @@ public class ClashRoyalMain {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        new ClashRoyalMain().go(args);
+    public static void main(String[] args) throws Exception {
+        // create the parser
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        Options options = new Options();
+
+        Option help = Option.builder("h").longOpt("help").desc("affiche cette aide").build();
+        Option file = Option.builder("f").longOpt("file").argName("propertieFile").hasArg().desc("lit un fichier .properties les clés sont : \"tag\" (sans le #) et \"token\" (JWT)").build();
+        Option tag = Option.builder("t").longOpt("tag").argName("tag").hasArg().desc("le tag d'un joueur mais sans le #").build();
+        Option key = Option.builder("k").longOpt("token").argName("token").hasArg().desc("le token (JWT) de l'api clash royale").build();
+
+        options.addOption(help);
+        options.addOption(file);
+        options.addOption(tag);
+        options.addOption(key);
+
+        CommandLine line = parser.parse(options, args);
+        if (args.length == 0 || line.hasOption("help")) {
+            formatter.printHelp("java -jar clashroyal.jar", options);
+            return;
+        }
+
+        String[] newArg = new String[2];
+        if (line.hasOption("file")) {
+            Properties p = new Properties();
+            Reader reader = new FileReader(line.getOptionValue("file"));
+            p.load(reader);
+            IOUtils.closeQuietly(reader);
+            newArg[0] = p.get("tag").toString();
+            newArg[1] = p.get("token").toString();
+        }
+        if (line.hasOption("tag")) {
+            newArg[0] = line.getOptionValue("tag");
+        }
+        if (line.hasOption("token")) {
+            newArg[1] = line.getOptionValue("token");
+        }
+        if (newArg[0].isEmpty() && newArg[1].isEmpty()) {
+            System.out.println("Il faut soit -f ou -t et -k obligatoire");
+            formatter.printHelp("java -jar clashroyal.jar", options);
+            return;
+        }
+        new ClashRoyalMain().go(newArg);
     }
 }
