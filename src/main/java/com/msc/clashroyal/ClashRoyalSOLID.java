@@ -6,16 +6,11 @@ package com.msc.clashroyal;
 import com.msc.clashroyal.entity.Card;
 import com.msc.clashroyal.entity.Player;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.io.IOUtils;
 
-import com.google.gson.Gson;
 import com.msc.clashroyal.cards.CardsUtils;
 import com.msc.clashroyal.cards.FactoryCard;
 import com.msc.clashroyal.cards.RarityCard;
@@ -43,7 +38,7 @@ public class ClashRoyalSOLID {
         long todayPo = 0;
         long costpayed = 0;
         long costAllMax = 0;
-        
+
         for (Card c : allcarts) {
             RarityCard card = FactoryCard.getCarRarityCard(c);
             costpayed += card.getManyCardCost();

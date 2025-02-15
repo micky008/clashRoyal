@@ -8,42 +8,50 @@ public interface RarityCard {
 
     /**
      * Retourne le prix max pour 1 carte.
-     * @return 
+     *
+     * @return
      */
     int getMaxPOForOneCard();
-    
+
     /**
      * Est ce que la carte a de quoi passer le prochain level ?
-     * @return 
+     *
+     * @return
      */
     boolean haveEnoughCardForNextStep();
+
     /**
      * Combien coute le prochain level (va de paire avec haveEnoughForNextStep).
-     * @return 
+     *
+     * @return
      */
     int getPOForNextStep();
-    
+
     /**
-     * Le cumul en PO de la carte deja mis.      
-     * @return 
+     * Le cumul en PO de la carte deja mis.
+     *
+     * @return
      */
     int getManyCardCost();
-    
+
     /**
      * le nombre max de carte qu'il faut pour 1 type.
-     * @return 
+     *
+     * @return
      */
     int getNbMaxCard();
-    
+
     /**
      * Le nombre de carte deja mis.
-     * @return 
+     *
+     * @return
      */
     int getNbDeCarteMis();
-    
+
     /**
      * Retourne le type de rarete: common, rare, epic, etc...
-     * @return 
+     *
+     * @return
      */
     String getRarityType();
 }

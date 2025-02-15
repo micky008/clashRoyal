@@ -1,6 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import static com.msc.clashroyal.cards.ChampCard.TYPE;
 import com.msc.clashroyal.entity.Card;
 
 /**
@@ -15,7 +14,8 @@ abstract class AbstractCard implements RarityCard {
 
     public AbstractCard(Card card, String type, Tableaux tab) {
         this.card = card;
-
+        this.type = type;
+        this.tab = tab;
     }
 
     /**
@@ -49,8 +49,8 @@ abstract class AbstractCard implements RarityCard {
         return true;
     }
 
-        @Override
-    public int getMaxPOForOneCard() {        
+    @Override
+    public int getMaxPOForOneCard() {
         return tab.max_po;
     }
 
@@ -76,7 +76,7 @@ abstract class AbstractCard implements RarityCard {
 
     @Override
     public int getNbDeCarteMis() {
-        return getHowMis( this.tab.nb);
+        return getHowMis(this.tab.nb);
     }
 
     @Override
@@ -84,16 +84,14 @@ abstract class AbstractCard implements RarityCard {
         return type;
     }
 
-    
-    
     protected static class Tableaux {
 
         public int po[];
         public int nb[];
         public int max_po;
         public int max_nb;
-        
-        public Tableaux(int po[], int nb[], int maxPo, int maxNb){
+
+        public Tableaux(int po[], int nb[], int maxPo, int maxNb) {
             this.po = po;
             this.nb = nb;
             this.max_po = maxPo;

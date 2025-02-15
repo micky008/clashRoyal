@@ -8,10 +8,9 @@ import java.util.List;
  */
 public class Player {
 
-  public  String tag;
-  public  String name;
-  public  List<Card> cards;
-  public  List<Card> supportCards;
+    public String tag;
+    public String name;
+    public List<Card> cards;
+    public List<Card> supportCards;
 
-    
 }

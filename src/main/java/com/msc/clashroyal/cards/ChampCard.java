@@ -15,10 +15,9 @@ class ChampCard extends AbstractCard {
     public static final String TYPE = "champion";
 
     private static Tableaux tab = new Tableaux(carte_champion_po, carte_champion_nb, max_champion_po, max_champion_carte);
-    
+
     public ChampCard(Card card) {
         super(card, TYPE, tab);
     }
 
-    
 }

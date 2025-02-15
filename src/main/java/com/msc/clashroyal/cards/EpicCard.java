@@ -14,12 +14,10 @@ class EpicCard extends AbstractCard {
     private static final int max_epic_carte = 427;
     public static final String TYPE = "epic";
 
-     private static Tableaux tab = new Tableaux(carte_epic_po, carte_epic_nb, max_epic_po, max_epic_carte);
-   
-    
+    private static Tableaux tab = new Tableaux(carte_epic_po, carte_epic_nb, max_epic_po, max_epic_carte);
+
     public EpicCard(Card card) {
         super(card, TYPE, tab);
     }
 
-    
 }
