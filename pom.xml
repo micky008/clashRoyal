@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <exec.mainClass>com.msc.clashroyal.ClashRoyalMain</exec.mainClass>
+        <exec.mainClass>com.msc.clashroyal.ClashRoyalSOLID</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
@@ -52,7 +52,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.msc.clashroyal.ClashRoyalMain</mainClass>
+                                    <mainClass>com.msc.clashroyal.ClashRoyalSOLID</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
