@@ -3,6 +3,8 @@
  */
 package com.msc.clashroyal;
 
+import com.msc.clashroyal.entity.Card;
+import com.msc.clashroyal.entity.Player;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -44,13 +46,11 @@ public class ClashRoyalMain {
         if (card.level >= card.maxLevel) {
             return 0;
         }
+        //nombre de carte < prochain palier
         if (card.count < tabCarte[card.level + 1]) {
             return 0;
         }
-        for (int i = card.level; i < card.level + 1; i++) {
-            res += tabPo[i];
-        }
-        return res;
+        return tabPo[card.level];
     }
 
     public List<Card> merge(Player p) {
@@ -75,8 +75,8 @@ public class ClashRoyalMain {
         HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
         myURLConnection.setRequestProperty("Authorization", "Bearer " + args[1]);
         InputStream is = myURLConnection.getInputStream();
-        Gson gson = new Gson();
         String json = IOUtils.toString(is, "UTF-8");
+        Gson gson = new Gson();
         Player player = gson.fromJson(json, Player.class);
         long costpayed = 0;
         List<Card> allcarts = merge(player);
