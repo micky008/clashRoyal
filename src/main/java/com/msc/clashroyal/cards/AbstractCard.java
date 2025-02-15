@@ -1,5 +1,6 @@
 package com.msc.clashroyal.cards;
 
+import static com.msc.clashroyal.cards.ChampCard.TYPE;
 import com.msc.clashroyal.entity.Card;
 
 /**
@@ -9,9 +10,12 @@ import com.msc.clashroyal.entity.Card;
 abstract class AbstractCard implements RarityCard {
 
     protected Card card;
+    protected String type;
+    protected Tableaux tab;
 
-    public AbstractCard(Card card) {
+    public AbstractCard(Card card, String type, Tableaux tab) {
         this.card = card;
+
     }
 
     /**
@@ -43,6 +47,58 @@ abstract class AbstractCard implements RarityCard {
             return false;
         }
         return true;
+    }
+
+        @Override
+    public int getMaxPOForOneCard() {        
+        return tab.max_po;
+    }
+
+    @Override
+    public boolean haveEnoughCardForNextStep() {
+        return haveEnoughCardForNextStep(this.tab.nb);
+    }
+
+    @Override
+    public int getPOForNextStep() {
+        return getPOForNextStep(this.tab.po);
+    }
+
+    @Override
+    public int getManyCardCost() {
+        return getHowMis(this.tab.po);
+    }
+
+    @Override
+    public int getNbMaxCard() {
+        return this.tab.max_nb;
+    }
+
+    @Override
+    public int getNbDeCarteMis() {
+        return getHowMis( this.tab.nb);
+    }
+
+    @Override
+    public String getRarityType() {
+        return type;
+    }
+
+    
+    
+    protected static class Tableaux {
+
+        public int po[];
+        public int nb[];
+        public int max_po;
+        public int max_nb;
+        
+        public Tableaux(int po[], int nb[], int maxPo, int maxNb){
+            this.po = po;
+            this.nb = nb;
+            this.max_po = maxPo;
+            this.max_nb = maxNb;
+        }
     }
 
 }

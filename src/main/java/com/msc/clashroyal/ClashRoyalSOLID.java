@@ -34,7 +34,7 @@ import org.apache.commons.cli.Option;
  *
  * @author Michael
  */
-public class ClashRoyalNewMain {
+public class ClashRoyalSOLID {
 
     public void go(String args[]) throws IOException {
         PlayerFetcher joueur = new PlayerFetcher(args[0], args[1]);
@@ -104,6 +104,6 @@ public class ClashRoyalNewMain {
             formatter.printHelp("java -jar clashroyal.jar", options);
             return;
         }
-        new ClashRoyalNewMain().go(newArg);
+        new ClashRoyalSOLID().go(newArg);
     }
 }

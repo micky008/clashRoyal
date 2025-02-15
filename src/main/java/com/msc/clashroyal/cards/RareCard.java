@@ -14,43 +14,11 @@ class RareCard extends AbstractCard {
     private static final int max_rare_carte = 3287;
     public static final String TYPE = "rare";
 
+      private static Tableaux tab = new Tableaux(carte_rare_po, carte_rare_nb, max_rare_po, max_rare_carte);
+   
+    
     public RareCard(Card card) {
-        super(card);
-    }
-
-    @Override
-    public int getMaxPOForOneCard() {
-        return max_rare_po;
-    }
-
-    @Override
-    public boolean haveEnoughCardForNextStep() {
-        return super.haveEnoughCardForNextStep(carte_rare_nb);
-    }
-
-    @Override
-    public int getPOForNextStep() {
-        return super.getPOForNextStep(carte_rare_po);
-    }
-
-    @Override
-    public int getManyCardCost() {
-        return super.getHowMis(carte_rare_po);
-    }
-
-    @Override
-    public int getNbMaxCard() {
-        return max_rare_carte;
-    }
-
-    @Override
-    public int getNbDeCarteMis() {
-        return super.getHowMis(carte_rare_nb);
-    }
-
-    @Override
-    public String getRarityType() {
-        return TYPE;
+        super(card, TYPE, tab);
     }
 
 }

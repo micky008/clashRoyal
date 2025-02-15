@@ -14,44 +14,12 @@ class CommonCard extends AbstractCard {
     private final static int max_commune_carte = 12087;
     public static final String TYPE = "common";
     
-    
+     private static Tableaux tab = new Tableaux(carte_commune_po, carte_commune_nb, max_commune_po, max_commune_carte);
+   
     
     public CommonCard(Card card) {
-        super(card);
+        super(card, TYPE, tab);
     }
 
-    @Override
-    public int getMaxPOForOneCard() {
-        return max_commune_po;
-    }
 
-    @Override
-    public boolean haveEnoughCardForNextStep() {
-        return super.haveEnoughCardForNextStep(carte_commune_nb);
-    }
-
-    @Override
-    public int getPOForNextStep() {
-        return super.getPOForNextStep(carte_commune_po);
-    }
-
-    @Override
-    public int getManyCardCost() {
-        return super.getHowMis(carte_commune_po);
-    }
-
-    @Override
-    public int getNbMaxCard() {
-        return max_commune_carte;
-    }
-
-    @Override
-    public int getNbDeCarteMis() {
-        return super.getHowMis(carte_commune_nb);
-    }
-
-    @Override
-    public String getRarityType() {
-        return TYPE;
-    }
 }

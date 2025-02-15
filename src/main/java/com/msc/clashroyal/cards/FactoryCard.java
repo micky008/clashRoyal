@@ -8,9 +8,9 @@ import com.msc.clashroyal.entity.Card;
  */
 public class FactoryCard {
 
-    public static RarityCard getCarRarityCard(Card card) {
-        switch(card.rarity){
-            case CommonCard.TYPE :
+    public static RarityCard getCarRarityCard(Card card) {        
+        switch (card.rarity) {
+            case CommonCard.TYPE:
                 return new CommonCard(card);
             case RareCard.TYPE:
                 return new RareCard(card);

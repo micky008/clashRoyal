@@ -14,43 +14,12 @@ class EpicCard extends AbstractCard {
     private static final int max_epic_carte = 427;
     public static final String TYPE = "epic";
 
-    public EpicCard(Card card) {
-        super(card);
-    }
-
-    @Override
-    public int getMaxPOForOneCard() {
-        return max_epic_po;
-    }
-
-    @Override
-    public boolean haveEnoughCardForNextStep() {
-        return super.haveEnoughCardForNextStep(carte_epic_nb);
-    }
-
-    @Override
-    public int getPOForNextStep() {
-        return super.getPOForNextStep(carte_epic_po);
-    }
-
-    @Override
-    public int getManyCardCost() {
-        return super.getHowMis(carte_epic_po);
-    }
-
-    @Override
-    public int getNbMaxCard() {
-        return max_epic_carte;
-    }
-
-    @Override
-    public int getNbDeCarteMis() {
-        return super.getHowMis(carte_epic_nb);
-    }
+     private static Tableaux tab = new Tableaux(carte_epic_po, carte_epic_nb, max_epic_po, max_epic_carte);
+   
     
-    @Override
-    public String getRarityType() {
-        return TYPE;
+    public EpicCard(Card card) {
+        super(card, TYPE, tab);
     }
+
     
 }
