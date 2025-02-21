@@ -1,4 +1,4 @@
-package com.msc.clashroyal;
+package com.msc.clashroyal.deprecated;
 
 public class RefCards {
 

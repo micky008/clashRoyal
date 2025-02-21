@@ -1,7 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package com.msc.clashroyal;
+package com.msc.clashroyal.deprecated;
 
 import com.msc.clashroyal.entity.Card;
 import com.msc.clashroyal.entity.Player;
@@ -27,9 +27,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.Option;
 
 /**
- *
+ * Ne pas utiliser priviligié @see com.msc.clashroyal.ClashRoyalSOLID.
+ * Je le garde pour me rappeler de comment j'ai fait le 1er jet.
  * @author Michael
  */
+@Deprecated
 public class ClashRoyalMain {
 
     public long calculCost(Card card, int[] tab) {
