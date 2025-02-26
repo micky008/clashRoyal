@@ -1,5 +1,5 @@
 package com.msc.clashroyal.deprecated;
-
+//merci https://clash.world/guides/card-upgrade-costs/
 public class RefCards {
 
     public static int carte_commune_po[] = {0, 5, 20, 50, 150, 400, 1000, 2000, 4000, 8000, 15000, 35000, 75000, 100000};
