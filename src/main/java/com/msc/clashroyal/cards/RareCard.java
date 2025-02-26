@@ -1,7 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import com.msc.clashroyal.entity.Card;
-
 /**
  *
  * @author Michael
@@ -16,8 +14,8 @@ class RareCard extends AbstractCard {
 
     private static Tableaux tab = new Tableaux(carte_rare_po, carte_rare_nb, max_rare_po, max_rare_carte);
 
-    public RareCard(Card card) {
-        super(card, TYPE, tab);
+    public RareCard() {
+        super(TYPE, tab);
     }
 
 }

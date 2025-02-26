@@ -1,6 +1,7 @@
 package com.msc.clashroyal.cards;
 
 import com.msc.clashroyal.entity.Card;
+import com.msc.clashroyal.entity.CardPlayer;
 
 /**
  *
@@ -8,14 +9,18 @@ import com.msc.clashroyal.entity.Card;
  */
 abstract class AbstractCard implements RarityCard {
 
-    protected Card card;
+    protected CardPlayer card;
     protected String type;
     protected Tableaux tab;
 
-    public AbstractCard(Card card, String type, Tableaux tab) {
-        this.card = card;
+    public AbstractCard(String type, Tableaux tab) {
         this.type = type;
         this.tab = tab;
+    }
+
+    public RarityCard setCard(CardPlayer c) {
+        this.card = c;
+        return this;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.msc.clashroyal.cards;
 
 import com.msc.clashroyal.entity.Card;
+import com.msc.clashroyal.entity.CardPlayer;
 
 /**
  *
@@ -8,20 +9,42 @@ import com.msc.clashroyal.entity.Card;
  */
 public class FactoryCard {
 
-    public static RarityCard getCarRarityCard(Card card) {
+    private static final RarityCard common = new CommonCard();
+    private static final RarityCard rare = new RareCard();
+    private static final RarityCard epic = new EpicCard();
+    private static final RarityCard leg = new LegendCard();
+    private static final RarityCard champ = new ChampCard();
+
+    public static RarityCard getCarRarityCardPlayer(CardPlayer card) {
         switch (card.rarity) {
             case CommonCard.TYPE:
-                return new CommonCard(card);
+                return common.setCard(card);
             case RareCard.TYPE:
-                return new RareCard(card);
+                return rare.setCard(card);
             case EpicCard.TYPE:
-                return new EpicCard(card);
+                return epic.setCard(card);
             case LegendCard.TYPE:
-                return new LegendCard(card);
+                return leg.setCard(card);
             case ChampCard.TYPE:
-                return new ChampCard(card);
+                return champ.setCard(card);
         }
         return null;
     }
 
+    public static RarityCard getCarRarityCard(Card card) {
+        switch (card.rarity) {
+            case CommonCard.TYPE:
+                return common;
+            case RareCard.TYPE:
+                return rare;
+            case EpicCard.TYPE:
+                return epic;
+            case LegendCard.TYPE:
+                return leg;
+            case ChampCard.TYPE:
+                return champ;
+        }
+        return null;
+    }
+    
 }

@@ -1,7 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import com.msc.clashroyal.entity.Card;
-
 /**
  *
  * @author Michael
@@ -16,8 +14,8 @@ class ChampCard extends AbstractCard {
 
     private static Tableaux tab = new Tableaux(carte_champion_po, carte_champion_nb, max_champion_po, max_champion_carte);
 
-    public ChampCard(Card card) {
-        super(card, TYPE, tab);
+    public ChampCard() {
+        super(TYPE, tab);
     }
 
 }

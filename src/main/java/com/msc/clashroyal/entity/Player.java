@@ -10,7 +10,7 @@ public class Player {
 
     public String tag;
     public String name;
-    public List<Card> cards;
-    public List<Card> supportCards;
+    public List<CardPlayer> cards;
+    public List<CardPlayer> supportCards;
 
 }

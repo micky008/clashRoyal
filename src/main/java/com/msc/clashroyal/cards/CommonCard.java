@@ -1,7 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import com.msc.clashroyal.entity.Card;
-
 /**
  *
  * @author Michael
@@ -16,8 +14,8 @@ class CommonCard extends AbstractCard {
 
     private static Tableaux tab = new Tableaux(carte_commune_po, carte_commune_nb, max_commune_po, max_commune_carte);
 
-    public CommonCard(Card card) {
-        super(card, TYPE, tab);
+    public CommonCard() {
+        super(TYPE, tab);
     }
 
 }

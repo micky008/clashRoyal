@@ -1,7 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import com.msc.clashroyal.entity.Card;
-
 /**
  *
  * @author Michael
@@ -16,8 +14,8 @@ class EpicCard extends AbstractCard {
 
     private static Tableaux tab = new Tableaux(carte_epic_po, carte_epic_nb, max_epic_po, max_epic_carte);
 
-    public EpicCard(Card card) {
-        super(card, TYPE, tab);
+    public EpicCard() {
+        super(TYPE, tab);
     }
 
 }

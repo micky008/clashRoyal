@@ -8,14 +8,12 @@ import com.msc.clashroyal.entity.Player;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
-
 import org.apache.commons.io.IOUtils;
-
 import com.google.gson.Gson;
+import com.msc.clashroyal.entity.CardPlayer;
+import com.msc.clashroyal.entity.Items;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.Properties;
@@ -35,7 +33,7 @@ import org.apache.commons.cli.Option;
 @Deprecated
 public class ClashRoyalMain2 {
 
-    public long calculCost(Card card, int[] tab) {
+    public long calculCost(CardPlayer card, int[] tab) {
         long res = 0;
         int max = card.level > card.maxLevel ? card.maxLevel : card.level;
         for (int i = 0; i < max; i++) {
@@ -44,7 +42,7 @@ public class ClashRoyalMain2 {
         return res;
     }
 
-    public long calculCartePo(Card card, int[] tabPo, int[] tabCarte) {
+    public long calculCartePo(CardPlayer card, int[] tabPo, int[] tabCarte) {
         long res = 0;
         if (card.level >= card.maxLevel) {
             return 0;
@@ -56,47 +54,35 @@ public class ClashRoyalMain2 {
         return tabPo[card.level];
     }
 
-    public List<Card> merge(Player p) {
-        List<Card> allcards = new ArrayList<>(p.cards.size() + p.supportCards.size());
-        allcards.addAll(p.cards);
-        allcards.addAll(p.supportCards);
-        return allcards;
+    public List<CardPlayer> merge(Player p) {
+        p.cards.addAll(p.supportCards);
+        return p.cards;
     }
 
-    private long[] countForAll(List<Card> allcards) {
-        int countCommon = 0;
-        int countRare = 0;
-        int countEpic = 0;
-        int countLegend = 0;
-        int countChamp = 0;
+    private long[] countForAll(List<CardPlayer> allcards) {
         int[] pos = null;
         int[] nbs = null;
         long costpayed = 0;
         long todayPo = 0;
-        for (Card card : allcards) {
+        for (CardPlayer card : allcards) {
             switch (card.rarity) {
                 case "common":
-                    countCommon++;
                     pos = RefCards.carte_commune_po;
                     nbs = RefCards.carte_commune_nb;
                     break;
                 case "rare":
-                    countRare++;
                     pos = RefCards.carte_rare_po;
                     nbs = RefCards.carte_rare_nb;
                     break;
                 case "epic":
-                    countEpic++;
                     pos = RefCards.carte_epic_po;
                     nbs = RefCards.carte_epic_nb;
                     break;
                 case "legendary":
-                    countLegend++;
                     pos = RefCards.carte_legendaire_po;
                     nbs = RefCards.carte_lengendaire_nb;
                     break;
                 case "champion":
-                    countChamp++;
                     pos = RefCards.carte_champion_po;
                     nbs = RefCards.carte_champion_nb;
                     break;
@@ -104,18 +90,13 @@ public class ClashRoyalMain2 {
             costpayed += calculCost(card, pos);
             todayPo += calculCartePo(card, pos, nbs);
         }
-        long[] res = new long[7];
-        res[0] = countCommon * RefCards.max_commune_po;
-        res[1] = countRare * RefCards.max_rare_po;
-        res[2] = countEpic * RefCards.max_epic_po;
-        res[3] = countLegend * RefCards.max_legendaire_po;
-        res[4] = countChamp * RefCards.max_champion_po;
-        res[5] = costpayed;
-        res[6] = todayPo;
+        long[] res = new long[2];
+        res[0] = costpayed;
+        res[1] = todayPo;
         return res;
     }
 
-    public void go(String args[]) throws IOException {
+    public Player getPlayer(String[] args) throws IOException {
         URL url = new URL("https://api.clashroyale.com/v1/players/%23" + args[0]);
         HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
         myURLConnection.setRequestProperty("Authorization", "Bearer " + args[1]);
@@ -123,16 +104,52 @@ public class ClashRoyalMain2 {
         String json = IOUtils.toString(is, "UTF-8");
         Gson gson = new Gson();
         Player player = gson.fromJson(json, Player.class);
-        List<Card> allcarts = merge(player);
-        long res[] = countForAll(allcarts);
-        long costAllMax = (res[0] + res[1] + res[2] + res[3] + res[4]);
+        return player;
+    }
+
+    public List<Card> getAllCards(String[] args) throws IOException {
+        URL url = new URL("https://api.clashroyale.com/v1/cards");
+        HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
+        myURLConnection.setRequestProperty("Authorization", "Bearer " + args[1]);
+        InputStream is = myURLConnection.getInputStream();
+        String json = IOUtils.toString(is, "UTF-8");
+        Gson gson = new Gson();
+        Items items = gson.fromJson(json, Items.class);
+        return items.combined();
+    }
+
+    public void go(String args[]) throws IOException {
+        Player player = getPlayer(args);
+        List<Card> allCards = getAllCards(args);
+        long costAllMax = 0;
+        for (Card c : allCards) {
+            switch (c.rarity) {
+                case "common":
+                    costAllMax += RefCards.max_commune_po;
+                    break;
+                case "rare":
+                    costAllMax += RefCards.max_rare_po;
+                    break;
+                case "epic":
+                    costAllMax += RefCards.max_epic_po;
+                    break;
+                case "legendary":
+                    costAllMax += RefCards.max_legendaire_po;
+                    break;
+                case "champion":
+                    costAllMax += RefCards.max_champion_po;
+                    break;
+            }
+        }
+        List<CardPlayer> allcartsFromPlayer = merge(player);
+        long res[] = countForAll(allcartsFromPlayer);
         System.out.print(player.name);
         System.out.println();
         System.out.print("Cout Max de tts les Cartes: " + String.format("%,8d%n", costAllMax));
-        System.out.print("Thunes deja investie: " + String.format("%,8d%n", res[5]));
-        System.out.print("Reste a mettre: " + String.format("%,8d%n", (costAllMax - res[5])));
+        System.out.print("Thunes deja investie: " + String.format("%,8d%n", res[0]));
+        System.out.print("Reste a mettre: " + String.format("%,8d%n", (costAllMax - res[0])));
         System.out.println();
-        System.out.print("Total de po a mettre pour carte passable: " + String.format("%,8d%n", res[6]));
+        System.out.print("Total de po a mettre pour carte passable: " + String.format("%,8d%n", res[1]));
 
     }
 
@@ -178,7 +195,7 @@ public class ClashRoyalMain2 {
             formatter.printHelp("java -jar clashroyal.jar", options);
             return;
         }
-        
+
         new ClashRoyalMain2().go(newArg);
     }
 }

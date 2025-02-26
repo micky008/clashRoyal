@@ -12,7 +12,8 @@ import org.apache.commons.io.IOUtils;
  */
 public class ApiFetcher {
 
-    private static final String clashAPIURL = "https://api.clashroyale.com/v1/players/%23";
+    private static final String clashAPIPlayerURL = "https://api.clashroyale.com/v1/players/%23";
+    private static final String clashAPICardsURL = "https://api.clashroyale.com/v1/cards";
 
     private final String tag;
     private final String token;
@@ -22,12 +23,22 @@ public class ApiFetcher {
         this.token = token;
     }
 
-    public String getPlayerInJson() throws IOException {
-        URL url = new URL(clashAPIURL + tag);
+    private String getString(URL url) throws IOException {
         HttpsURLConnection myURLConnection = (HttpsURLConnection) url.openConnection();
         myURLConnection.setRequestProperty("Authorization", "Bearer " + token);
         InputStream is = myURLConnection.getInputStream();
         return IOUtils.toString(is, "UTF-8");
+    }
+
+    public String getPlayerInJson() throws IOException {
+        URL url = new URL(clashAPIPlayerURL + tag);
+        return getString(url);
+
+    }
+
+    public String getAllCards() throws IOException {
+        URL url = new URL(clashAPICardsURL);
+        return getString(url);
     }
 
 }

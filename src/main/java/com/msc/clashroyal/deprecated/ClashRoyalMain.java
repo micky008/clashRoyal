@@ -16,6 +16,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
+import com.msc.clashroyal.entity.CardPlayer;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.Properties;
@@ -34,7 +35,7 @@ import org.apache.commons.cli.Option;
 @Deprecated
 public class ClashRoyalMain {
 
-    public long calculCost(Card card, int[] tab) {
+    public long calculCost(CardPlayer card, int[] tab) {
         long res = 0;
         int max = card.level > card.maxLevel ? card.maxLevel : card.level;
         for (int i = 0; i < max; i++) {
@@ -43,7 +44,7 @@ public class ClashRoyalMain {
         return res;
     }
 
-    public long calculCartePo(Card card, int[] tabPo, int[] tabCarte) {
+    public long calculCartePo(CardPlayer card, int[] tabPo, int[] tabCarte) {
         long res = 0;
         if (card.level >= card.maxLevel) {
             return 0;
@@ -55,14 +56,14 @@ public class ClashRoyalMain {
         return tabPo[card.level];
     }
 
-    public List<Card> merge(Player p) {
-        List<Card> allcards = new ArrayList<>(p.cards.size() + p.supportCards.size());
+    public List<CardPlayer> merge(Player p) {
+        List<CardPlayer> allcards = new ArrayList<>(p.cards.size() + p.supportCards.size());
         allcards.addAll(p.cards);
         allcards.addAll(p.supportCards);
         return allcards;
     }
 
-    public int howManyCards(List<Card> cards, String rarity) {
+    public int howManyCards(List<CardPlayer> cards, String rarity) {
         int res = 0;
         for (Card c : cards) {
             if (c.rarity.equals(rarity)) {
@@ -81,7 +82,7 @@ public class ClashRoyalMain {
         Gson gson = new Gson();
         Player player = gson.fromJson(json, Player.class);
         long costpayed = 0;
-        List<Card> allcarts = merge(player);
+        List<CardPlayer> allcarts = merge(player);
         int nbCommon = RefCards.max_commune_po * howManyCards(allcarts, "common");
         int nbRare = RefCards.max_rare_po * howManyCards(allcarts, "rare");
         int nbEpic = RefCards.max_epic_po * howManyCards(allcarts, "epic");
@@ -89,7 +90,7 @@ public class ClashRoyalMain {
         int nbChamp = RefCards.max_champion_po * howManyCards(allcarts, "champion");
         long costAllMax = (nbCommon + nbRare + nbEpic + nbLegend + nbChamp);
         long todayPo = 0;
-        for (Card card : allcarts) {
+        for (CardPlayer card : allcarts) {
             switch (card.rarity) {
                 case "common":
                     costpayed += calculCost(card, RefCards.carte_commune_po);

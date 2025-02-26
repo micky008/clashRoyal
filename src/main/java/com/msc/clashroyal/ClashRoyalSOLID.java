@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import com.msc.clashroyal.cards.CardsUtils;
 import com.msc.clashroyal.cards.FactoryCard;
 import com.msc.clashroyal.cards.RarityCard;
+import com.msc.clashroyal.entity.CardPlayer;
 import com.msc.clashroyal.player.PlayerFetcher;
 import java.io.FileReader;
 import java.io.Reader;
@@ -34,15 +35,20 @@ public class ClashRoyalSOLID {
     public void go(String args[]) throws IOException {
         PlayerFetcher joueur = new PlayerFetcher(args[0], args[1]);
         Player player = joueur.getPlayer();
-        List<Card> allcarts = CardsUtils.getAllCards(player);
+        List<CardPlayer> allPlayerCards = CardsUtils.getAllCards(player);
         long todayPo = 0;
         long costpayed = 0;
         long costAllMax = 0;
 
-        for (Card c : allcarts) {
+        List<Card> allcards = joueur.getAllCards();
+        for (Card c : allcards) {
             RarityCard card = FactoryCard.getCarRarityCard(c);
-            costpayed += card.getManyCardCost();
             costAllMax += card.getMaxPOForOneCard();
+        }
+        
+        for (CardPlayer c : allPlayerCards) {
+            RarityCard card = FactoryCard.getCarRarityCardPlayer(c);
+            costpayed += card.getManyCardCost();
             if (card.haveEnoughCardForNextStep()) {
                 todayPo += card.getPOForNextStep();
             }

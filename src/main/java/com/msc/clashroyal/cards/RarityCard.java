@@ -1,5 +1,7 @@
 package com.msc.clashroyal.cards;
 
+import com.msc.clashroyal.entity.CardPlayer;
+
 /**
  *
  * @author Michael
@@ -54,4 +56,7 @@ public interface RarityCard {
      * @return
      */
     String getRarityType();
+
+    RarityCard setCard(CardPlayer c);
+
 }

@@ -1,7 +1,5 @@
 package com.msc.clashroyal.cards;
 
-import com.msc.clashroyal.entity.Card;
-
 /**
  *
  * @author Michael
@@ -14,13 +12,10 @@ class LegendCard extends AbstractCard {
     private static final int max_legendaire_carte = 43;
     public static final String TYPE = "legendary";
 
-     private static Tableaux tab = new Tableaux(carte_legendaire_po, carte_lengendaire_nb, max_legendaire_po, max_legendaire_carte);
-   
-    
-    public LegendCard(Card card) {
-        super(card, TYPE, tab);
+    private static Tableaux tab = new Tableaux(carte_legendaire_po, carte_lengendaire_nb, max_legendaire_po, max_legendaire_carte);
+
+    public LegendCard() {
+        super(TYPE, tab);
     }
 
- 
-    
 }
